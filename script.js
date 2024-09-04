@@ -114,9 +114,25 @@ function updateClock(timezone) {
     if (!timezone) return;
 
     const now = new Date();
-    const date = new Date().toLocaleString('es-ES', { timeZone: timezone });
-    const formattedDate = formatDate(new Date(date));
-    const time = new Date(date).toLocaleTimeString('en-US', { timeZone: timezone, hour12: false });
+    
+    // Obtener la hora y la fecha en la zona horaria seleccionada
+    const options = {
+        timeZone: timezone,
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    };
+
+    const formatter = new Intl.DateTimeFormat('es-ES', options);
+    const parts = formatter.formatToParts(now);
+
+    const formattedDate = `${parts.find(p => p.type === 'day').value}/${parts.find(p => p.type === 'month').value}/${parts.find(p => p.type === 'year').value}`;
+    const time = `${parts.find(p => p.type === 'hour').value}:${parts.find(p => p.type === 'minute').value}:${parts.find(p => p.type === 'second').value}`;
+
     document.getElementById('clock').textContent = `${formattedDate} ${time}`;
 
     // Mostrar la capital del país seleccionado
@@ -152,3 +168,4 @@ function initializeMap() {
 // Inicializar mapa y reloj
 initializeMap();
 let realTimeInterval;
+
