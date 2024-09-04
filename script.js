@@ -114,7 +114,7 @@ function updateClock(timezone) {
     if (!timezone) return;
 
     const now = new Date();
-    const date = new Date().toLocaleString('en-US', { timeZone: timezone });
+    const date = new Date().toLocaleString('es-ES', { timeZone: timezone });
     const formattedDate = formatDate(new Date(date));
     const time = new Date(date).toLocaleTimeString('en-US', { timeZone: timezone, hour12: false });
     document.getElementById('clock').textContent = `${formattedDate} ${time}`;
